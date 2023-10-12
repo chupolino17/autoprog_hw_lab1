@@ -1,0 +1,130 @@
+begin
+
+    sub face_north
+    begin
+        while not north
+            turn right
+        end
+    end
+
+    sub face_east
+    begin
+        while not east
+            turn right
+        end
+    end
+
+    sub face_south
+    begin
+        while not south
+            turn right
+        end
+    end
+
+    sub face_west
+    begin
+        while not west
+            turn right
+        end
+    end
+
+    sub check_success
+    begin
+        call face_north
+        if front_is_treasure
+        then
+            exit
+        end
+
+        call face_east
+        if front_is_treasure
+        then
+            exit
+        end
+
+        call face_south
+        if front_is_treasure
+        then
+            exit
+        end
+
+        call face_west
+        if front_is_treasure
+        then
+            exit
+        end
+    end
+
+    sub traverse_north
+    begin
+        call face_north
+        if not front_is_blocked
+        then
+            beeper put
+            move
+            call traverse
+            call face_south
+            move
+            beeper pick
+        end
+    end
+
+    sub traverse_east
+    begin
+        call face_east
+        if not front_is_blocked
+        then
+            beeper put
+            move
+            call traverse
+            call face_west
+            move
+            beeper pick
+        end
+    end
+
+    sub traverse_south
+    begin
+        call face_south
+        if not front_is_blocked
+        then
+            beeper put
+            move
+            call traverse
+            call face_north
+            move
+            beeper pick
+        end
+    end
+
+    sub traverse_west
+    begin
+        call face_west
+        if not front_is_blocked
+        then
+            beeper put
+            move
+            call traverse
+            call face_east
+            move
+            beeper pick
+        end
+    end
+
+    sub traverse
+    begin
+        call check_success
+
+        if not is_beeper
+        then
+            call traverse_north
+            call traverse_east
+            call traverse_south
+            call traverse_west
+        end
+    end
+
+
+    call traverse
+    exit
+end
